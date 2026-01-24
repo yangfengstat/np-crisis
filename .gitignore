@@ -1,0 +1,18 @@
+.DS_Store
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# R Markdown outputs
+NP_Crisis.html
+NP_Crisis.md
+NP_Crisis_files/
+
+# renv (keep lockfile + activation, ignore library)
+renv/library/
+
+# Generated outputs (keep cached RDS, ignore everything else)
+outputs/*
+!outputs/rds/
+!outputs/rds/*.rds
