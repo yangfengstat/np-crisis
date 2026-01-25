@@ -4,6 +4,24 @@ output: html_document
 toc: true
 ---
 
+## Reproducibility (Stable Code Reference)
+
+This analysis corresponds to the GitHub repository `yangfengstat/np-crisis` at the tagged release `v1.0`
+(commit `15c1ccbfffda145d846264b29ebcf9b08034e4bc`). For a stable link (not a moving branch), cite:
+
+- `https://github.com/yangfengstat/np-crisis/tree/v1.0`
+- `https://github.com/yangfengstat/np-crisis/releases/tag/v1.0` (once the GitHub Release is created)
+
+To reproduce this exact version:
+
+```bash
+git clone https://github.com/yangfengstat/np-crisis.git
+cd np-crisis
+git checkout v1.0
+```
+
+R package versions are recorded in `renv.lock`; restore them with `renv::restore()`.
+
 ```{r setup, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 rm(list=ls())
