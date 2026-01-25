@@ -24,5 +24,7 @@ This produces `NP_Crisis.html` and writes generated artifacts (CSVs/figures) und
 ## Notes
 
 - `rmarkdown::render()` requires Pandoc. Installing RStudio Desktop is the simplest way to get Pandoc on most systems.
+- If you don't have Pandoc (or only want the figures/CSVs), you can knit without rendering:
+  - `R --vanilla -q -f scripts/knit.R`
 - By default, `NP_Crisis.Rmd` sets `use_cached_rds <- TRUE` and will reuse the cached files in `outputs/rds/` when present.
 - If you set `use_cached_rds <- FALSE`, the notebook will recompute models and (depending on the chunk settings) can take a long time (e.g., the bootstrap section is configured for hundreds of replications).
