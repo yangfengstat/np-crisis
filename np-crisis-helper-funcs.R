@@ -1,17 +1,5 @@
-# 1. Library and Structure Setup
-# setwd("~/Box/NP Crisis/Codes/Code/R/Reserves")
-# 1.1 Library setup
-library(foreign)
-library(e1071)
-library(imputeMissings)
-library(pre)
-library(nproc)
-library(readxl)
-library(dplyr)
-library(ggplot2)
-library(data.table)
-library(parallel)
-#library(rfUtilities) 
+# 1. Structure Setup
+# NOTE: Keep all `library()` calls in `NP_Crisis.Rmd` (this file should not attach packages).
 # ---- Customized Functions ----
 
 npc.signalextraction <- function(x, y, predictor.name, alpha = 0.05, delta = 0.05, split = 1, split.ratio = 0.5, n.cores = 1, randseed = 0, warning = TRUE, ...){
@@ -403,7 +391,7 @@ current_working.training <- current_working.training[!is.na(current_working.trai
         score.training <- data.frame(Score = 1 - as.numeric(predict.signalextraction(trainingSample.NP, model.trained, predictor.name)), Label = ifelse(1 - as.numeric(predict.signalextraction(trainingSample.NP, model.trained, predictor.name)) > 0.5, 1, 0))
         score.forecasting <- data.frame(Score = 1 - as.numeric(predict.signalextraction(forecastingSample.NP, model.trained, predictor.name)), Label = ifelse(1 - as.numeric(predict.signalextraction(forecastingSample.NP, model.trained, predictor.name)) > 0.5, 1, 0))
       } else if (i.model == 2){
-        model.trained <- npc(trainingSample.NP[, predictor.name], trainingSample.NP$outcome, method = model.choice[i.model], alpha = alpha.t, delta = delta, split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
+        model.trained <- nproc::npc(trainingSample.NP[, predictor.name], trainingSample.NP$outcome, method = model.choice[i.model], alpha = alpha.t, delta = delta, split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
         score.training <- data.frame(Score = 1 - as.numeric(predict(model.trained, trainingSample.NP[, predictor.name])$pred.score), Label = 1 - as.numeric(predict(model.trained, trainingSample.NP[, predictor.name])$pred.label))
         score.forecasting <- data.frame(Score = 1 - as.numeric(predict(model.trained, forecastingSample.NP[, predictor.name])$pred.score), Label = 1 - as.numeric(predict(model.trained, forecastingSample.NP[, predictor.name])$pred.label))
       }

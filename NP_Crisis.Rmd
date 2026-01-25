@@ -12,21 +12,24 @@ rm(list=ls())
 
 library(dplyr)
 library(ggplot2)
-library(readr)
-library(readxl)
-library(data.table)
-
-library(foreign)
-library(imputeMissings)
-library(ROCR)
-
 library(foreach)
-library(doParallel)
-library(nproc)
-library(e1071)
-library(randomGLM)
-library(ROSE)
-library(rpart)
+
+required_pkgs <- c(
+  "data.table", "doParallel", "e1071", "foreign", "ggpubr", "imputeMissings",
+  "nproc", "randomGLM", "readr", "readxl", "rfUtilities", "ROCR", "ROSE",
+  "rpart", "tidyr", "zoo"
+)
+missing_pkgs <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
+if (length(missing_pkgs) > 0) {
+  stop("Missing required packages: ", paste(missing_pkgs, collapse = ", "), call. = FALSE)
+}
+
+if (FALSE) {
+  requireNamespace("e1071")
+  requireNamespace("randomGLM")
+  requireNamespace("ROSE")
+  requireNamespace("rpart")
+}
 
 data_dir <- "data"
 output_dir <- "outputs"
@@ -123,7 +126,7 @@ filename <- file.path(
   data_dir,
   paste0(External_database, Crisis_definition, Period_coverage, Date_constructed, suffix, ".dta")
 )
-current <- read.dta(filename, missing.type = FALSE, convert.underscore = FALSE)
+current <- foreign::read.dta(filename, missing.type = FALSE, convert.underscore = FALSE)
 # current <- current[which(current$Year >= 1990),]
 current$outcome <- current$SuddenStop_GI
 firstvar <- 5
@@ -137,16 +140,16 @@ Country_withCrisis$Optimal_Alpha <- NA
 row.id <- 0
 
 if (data == 5){
-  prior <- read.dta(file.path(data_dir, "Prior_SS_08_04_2019_v12.dta"), missing.type = FALSE, convert.underscore = FALSE)
+  prior <- foreign::read.dta(file.path(data_dir, "Prior_SS_08_04_2019_v12.dta"), missing.type = FALSE, convert.underscore = FALSE)
   # 1: the higher, the riskier
   # 0: the lower, the riskier
 }else if (data == 6){
-  prior <- read.dta(file.path(data_dir, "Prior_SSGI_08_04_2019_v12.dta"), missing.type = FALSE, convert.underscore = FALSE)
+  prior <- foreign::read.dta(file.path(data_dir, "Prior_SSGI_08_04_2019_v12.dta"), missing.type = FALSE, convert.underscore = FALSE)
   # 1: the higher, the riskier
   # 0: the lower, the riskier
 }
 
-prior <- read_excel(file.path(data_dir, "External_Variable_Riskiness_SSGI-19802019_SE_h1_22-Sep-2019.xlsx"), sheet = 1)
+prior <- readxl::read_excel(file.path(data_dir, "External_Variable_Riskiness_SSGI-19802019_SE_h1_22-Sep-2019.xlsx"), sheet = 1)
 
 prior_temp <- prior[which(prior$Year_cutoff==year.cutoff),]
 
@@ -272,7 +275,7 @@ if (use_cached_nproc_results) {
         label.training <- ifelse(score.training > 0.5, 1, 0)
         label.test <- ifelse(score.test > 0.5, 1, 0)
       }else{
-        model.trained <- npc(trainingSample.NP[, predictor.name.smaller], trainingSample.NP$outcome, method = model.choice[i.model], alpha = alpha, delta = 0.1, split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
+        model.trained <- nproc::npc(trainingSample.NP[, predictor.name.smaller], trainingSample.NP$outcome, method = model.choice[i.model], alpha = alpha, delta = 0.1, split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
         pred.training <- predict(model.trained, trainingSample.NP[, predictor.name.smaller])
         pred.test <- predict(model.trained, testSample.NP[, predictor.name.smaller])
         score.training <- 1 - pred.training$pred.score
@@ -419,7 +422,7 @@ if (use_cached_roc) {
                                               n.cores = 1, randseed = 0)
         score.test <- 1 - predict.signalextraction(testSample.NP, model.trained, predictor.name.smaller)
       }else{
-        model.trained <- npc(trainingSample.NP[, predictor.name.smaller], trainingSample.NP$outcome,
+        model.trained <- nproc::npc(trainingSample.NP[, predictor.name.smaller], trainingSample.NP$outcome,
                              method = model.choice[i.model], alpha = roc.alpha, delta = roc.delta,
                              split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
         pred.test <- predict(model.trained, testSample.NP[, predictor.name.smaller])
@@ -450,6 +453,8 @@ if (use_cached_roc) {
   save_rds(roc_curve_df, "roc_curve_df.rds")
   save_rds(roc_auc_table, "roc_auc_table.rds")
 }
+# Ensure the CSV exists even when using cached .rds files.
+write.csv(roc_auc_table, "./outputs/ROC_AUC_test_90 CI.csv", row.names = FALSE)
 # roc_curve_df$Model <- factor(roc_curve_df$Model, levels = model.choice)
 
 # plot.roc.standard <- ggplot(data = roc_curve_df) +
@@ -472,6 +477,92 @@ if (use_cached_roc) {
 # plot.roc.standard
 # ggsave(paste0("./outputs/roc_standard_test_models_features_", roc.plot.size, ".png"),
 #        plot = plot.roc.standard, width = 6, height = 6)
+```
+
+### Backtesting Performance of Models (Tables)
+
+```{r backtesting_performance_tables, results='asis', echo=FALSE, message=FALSE, warning=FALSE}
+as_paper_backtesting_table <- function(df) {
+  df <- as.data.frame(df, stringsAsFactors = FALSE)
+  if (!"model" %in% names(df)) stop("Expected a column named 'model'.", call. = FALSE)
+
+  desired <- paste0("features_", c(10, 20, 30, 40, 50, 60))
+  desired <- desired[desired %in% names(df)]
+  all_col <- if ("features_71" %in% names(df)) "features_71" else if ("features_70" %in% names(df)) "features_70" else NA_character_
+  if (is.na(all_col)) {
+    feat_cols <- grep("^features_\\d+$", names(df), value = TRUE)
+    if (length(feat_cols) > 0) all_col <- tail(feat_cols, 1)
+  }
+  cols <- c("model", desired, all_col)
+  cols <- cols[!is.na(cols) & cols %in% names(df)]
+
+  out <- df[, cols, drop = FALSE]
+
+  model_labels <- c(
+    "SE" = "Signal-Extraction",
+    "logistic" = "Logistic",
+    "svm" = "SVM",
+    "randomforest" = "Random Forests",
+    "ada" = "AdaBoost"
+  )
+
+  out$model <- ifelse(out$model %in% names(model_labels), model_labels[out$model], out$model)
+  out$model <- factor(out$model, levels = unname(model_labels))
+  out <- out[order(out$model), , drop = FALSE]
+  out$model <- as.character(out$model)
+
+  for (nm in names(out)) {
+    if (nm == "model") next
+    if (is.character(out[[nm]])) out[[nm]] <- suppressWarnings(as.numeric(out[[nm]]))
+  }
+
+  if (ncol(out) >= 2) {
+    num_cols <- setdiff(names(out), "model")
+    out[num_cols] <- lapply(out[num_cols], function(x) round(x, 3))
+  }
+
+  col_labels <- c(
+    "model" = "Model",
+    "features_10" = "$d=10$",
+    "features_20" = "$d=20$",
+    "features_30" = "$d=30$",
+    "features_40" = "$d=40$",
+    "features_50" = "$d=50$",
+    "features_60" = "$d=60$"
+  )
+  if (!is.na(all_col) && all_col %in% names(out)) {
+    col_labels[all_col] <- "All"
+  }
+  colnames(out) <- ifelse(names(out) %in% names(col_labels), col_labels[names(out)], names(out))
+
+  out
+}
+
+render_kable <- function(tbl, caption) {
+  cat(knitr::kable(tbl, format = "html", caption = caption, align = "c"), sep = "\n")
+  cat("\n\n")
+}
+
+render_kable(
+  as_paper_backtesting_table(df.auc.test),
+  "Area Under the NP-ROC Curve (AUC)"
+)
+render_kable(
+  as_paper_backtesting_table(df.pauc.test),
+  "Area Under the Partial NP-ROC Curve (AUPC)"
+)
+render_kable(
+  as_paper_backtesting_table(roc_auc_table),
+  "Area Under the Standard ROC Curve (AUC)"
+)
+
+cat(
+  "<p><em>Notes.</em> For NP-ROC AUC and AUPC, the violation rate of the model estimation under the NP classification paradigm is set to be ",
+  "$\\delta = 0.1$, which implies the percentage of missed crises is maintained under different upper bounds with a probability of at least 90\\%. ",
+  "Columns two through seven correspond to model performance with feature screening: $d=i$ where $i=10,20,30,40,50,60$ indicates the number of features used in the model estimation, ",
+  "and the last column shows model performance with the full feature set. Standard ROC AUC is computed on the same test sample.</p>\n",
+  sep = ""
+)
 ```
 
 
@@ -593,7 +684,7 @@ nproc.best.results <- foreach(row_idx = seq_len(nrow(combo.best)),
       label.training <- ifelse(score.training > 0.5, 1, 0)
       label.test <- ifelse(score.test > 0.5, 1, 0)
     }else{
-      model.trained <- npc(trainingSample.NP[, predictor.name.smaller], trainingSample.NP$outcome, method = model.choice[i.model], alpha = alpha, delta = 0.2, split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
+      model.trained <- nproc::npc(trainingSample.NP[, predictor.name.smaller], trainingSample.NP$outcome, method = model.choice[i.model], alpha = alpha, delta = 0.2, split = 1, split.ratio = 0.5, n.cores = 1, randSeed = 0)
       pred.training <- predict(model.trained, trainingSample.NP[, predictor.name.smaller])
       pred.test <- predict(model.trained, testSample.NP[, predictor.name.smaller])
       score.training <- 1 - pred.training$pred.score
@@ -641,7 +732,7 @@ if (use_cached_nproc) {
   nproc.tranining.df.best$V1 <- NULL
   nproc.tranining.df.best$screen.size <- NULL
   nproc.training.long <- nproc.tranining.df.best %>%
-    pivot_longer(!missed.crises, names_to = "label", values_to = "value")
+    tidyr::pivot_longer(!missed.crises, names_to = "label", values_to = "value")
 
   save_rds(nproc.training.long, "nproc_training_long.rds")
 }
@@ -672,7 +763,7 @@ if (use_cached_nproc) {
   nproc.test.df.best$V1 <- NULL
   nproc.test.df.best$screen.size <- NULL
   nproc.test.long <- nproc.test.df.best %>%
-    pivot_longer(!missed.crises, names_to = "label", values_to = "value")
+    tidyr::pivot_longer(!missed.crises, names_to = "label", values_to = "value")
 
   nproc.test.long$label[which(nproc.test.long$label == "SE")] <- "Signal-Extraction"
   nproc.test.long$label[which(nproc.test.long$label == "ada")] <- "AdaBoost"
@@ -715,7 +806,6 @@ plot.nproc.test
 
 ### Combine
 ```{r}
-library("ggpubr")
 #plot.combine <- ggarrange(plot.nproc.training, plot.nproc.test,common.legend = TRUE, legend = "top", ncol = 2, labels = c("training", "test"))
 #plot.combine
 #ggsave("./outputs/roc_training_test_nproc_models.png", plot = plot.combine, width = 10, height = 5)
@@ -724,8 +814,7 @@ library("ggpubr")
 
 ### Combine
 ```{r}
-library("ggpubr")
-plot.combine <- ggarrange(plot.roc.standard, plot.nproc.test,common.legend = TRUE, legend = "top", ncol = 2, labels = c("Classic ROC", "NP-ROC"),
+plot.combine <- ggpubr::ggarrange(plot.roc.standard, plot.nproc.test,common.legend = TRUE, legend = "top", ncol = 2, labels = c("Classic ROC", "NP-ROC"),
   label.x = 0.5,     # center horizontally
   label.y = 1,       # top of panel
   hjust = 0.5,       # center text horizontally
@@ -755,9 +844,9 @@ filename_cal <- file.path(
   data_dir,
   paste0(External_database_cal, Crisis_definition_cal, Period_coverage_cal, Date_constructed_cal, suffix_cal, ".dta")
 )
-Crisis_Data <- read.dta(file.path(data_dir, "Calibration_CrisisIdentificationData_53EM_19802017_10_29_2018.dta"), missing.type = FALSE, convert.underscore = FALSE)
-GlobalShocks_Data <- read.dta(file.path(data_dir, "Calibration_GlobalShocksData_19802017.dta"), missing.type = FALSE, convert.underscore = FALSE)
-current_calibration <- read.dta(filename_cal, missing.type = FALSE, convert.underscore = FALSE)
+Crisis_Data <- foreign::read.dta(file.path(data_dir, "Calibration_CrisisIdentificationData_53EM_19802017_10_29_2018.dta"), missing.type = FALSE, convert.underscore = FALSE)
+GlobalShocks_Data <- foreign::read.dta(file.path(data_dir, "Calibration_GlobalShocksData_19802017.dta"), missing.type = FALSE, convert.underscore = FALSE)
+current_calibration <- foreign::read.dta(filename_cal, missing.type = FALSE, convert.underscore = FALSE)
 current_calibration$outcome <- current_calibration$SuddenStop_GI
 firstvar <- 5
 
@@ -825,7 +914,7 @@ for (country in Country.list){
     CrossSectional_Calibration$delta[calibration_id] <- delta
   }
 }
-write_csv(CrossSectional_Calibration, file = file.path(output_dir, "CrossSectional_Calibration_NP.csv"))
+readr::write_csv(CrossSectional_Calibration, file = file.path(output_dir, "CrossSectional_Calibration_NP.csv"))
 ```
 
 ### Alpha calibration (np-crisis.R)
@@ -844,21 +933,21 @@ if(crosssectional_calibration == 1){
     Annually_Calibrated_Alpha <- readRDS(alpha_min_rds)
   } else {
     mse.alpha <- reserves_match.mse.alpha(alpha.choice_cal, current_calibration, year.cutoff_choice, test.size, Country.list, CrossSectional_Calibration, model.choice_cal, i.model,delta = delta_0)
-    DT.mse.alpha <- data.table(mse.alpha)
+    DT.mse.alpha <- data.table::data.table(mse.alpha)
     Annually_Calibrated_Alpha_mse <- mse.alpha %>%
       group_by(Year.cutoff, Alpha) %>%
       summarise(mse = mean((Reserves.optimal - Reserves.observed)^2, na.rm = TRUE))
-    DT.mse <- data.table(Annually_Calibrated_Alpha_mse)
+    DT.mse <- data.table::data.table(Annually_Calibrated_Alpha_mse)
     Annually_Calibrated_Alpha_mse_min <- DT.mse[ , .SD[which.min(mse)], by = "Year.cutoff"]
     save_rds(Annually_Calibrated_Alpha_mse, "alpha_calibration_mse_by_year.rds")
-    DT.mse.alpha <- data.table(mse.alpha)
+    DT.mse.alpha <- data.table::data.table(mse.alpha)
     mse.alpha$Reserves.error.squared <- mse.alpha$Reserves.error^2
     Annually_Calibrated_Alpha <- DT.mse.alpha[ , .SD[which.min(Reserves.error.squared)], by = c("Country.Name", "Year.cutoff")]
     save_rds(Annually_Calibrated_Alpha, "alpha_calibration_min_mse_by_year.rds")
     mse.alpha$Reserves.error_square <- mse.alpha$Reserves.error^2
     TimeInvariant_Calibrated_Alpha <- aggregate(mse.alpha$Reserves.error_square, by=list(Category = mse.alpha$Alpha), FUN = mean, na.rm = TRUE)
     names(TimeInvariant_Calibrated_Alpha) <- c("Alpha", "MSE")
-    write_csv(TimeInvariant_Calibrated_Alpha, file = file.path(output_dir, "TimeInvariant_Calibrated_Alpha_NP.csv"))
+    readr::write_csv(TimeInvariant_Calibrated_Alpha, file = file.path(output_dir, "TimeInvariant_Calibrated_Alpha_NP.csv"))
   }
   #plot.alpha.mse <- ggplot(Annually_Calibrated_Alpha_mse, aes(x=Year.cutoff, y=Alpha)) + geom_point()
   #plot.alpha.mse
@@ -944,7 +1033,7 @@ if (use_cached_boot) {
     bootstrap_alpha <- tryCatch(
       foreach::foreach(
         b = seq_len(bootstrap_reps),
-        .packages = c("dplyr", "data.table", "imputeMissings", "nproc", "purrr")
+        .packages = c("dplyr", "nproc")
       ) %dopar% {
         boot_countries <- sample(country_boot_pool, size = length(country_boot_pool), replace = TRUE)
         boot_list <- lapply(boot_countries, function(cty) current_calibration[current_calibration$Country_Name == cty, ])
@@ -956,7 +1045,7 @@ if (use_cached_boot) {
           Country.list, CrossSectional_Calibration, model.choice_cal, i.model, delta = delta_0
         )
         mse.alpha.boot$Reserves.error.squared <- mse.alpha.boot$Reserves.error^2
-        DT.mse.alpha.boot <- data.table(mse.alpha.boot)
+        DT.mse.alpha.boot <- data.table::data.table(mse.alpha.boot)
         annually_alpha_boot <- DT.mse.alpha.boot[ , .SD[which.min(Reserves.error.squared)], by = c("Country.Name", "Year.cutoff")]
 
         annually_alpha_boot %>%
@@ -984,7 +1073,7 @@ if (use_cached_boot) {
         Country.list, CrossSectional_Calibration, model.choice_cal, i.model, delta = delta_0
       )
       mse.alpha.boot$Reserves.error.squared <- mse.alpha.boot$Reserves.error^2
-      DT.mse.alpha.boot <- data.table(mse.alpha.boot)
+      DT.mse.alpha.boot <- data.table::data.table(mse.alpha.boot)
       annually_alpha_boot <- DT.mse.alpha.boot[ , .SD[which.min(Reserves.error.squared)], by = c("Country.Name", "Year.cutoff")]
 
       bootstrap_alpha[[b]] <- annually_alpha_boot %>%
@@ -1013,7 +1102,7 @@ if (use_cached_boot) {
   save_rds(data.plot.ci, "alpha_calibration_bootstrap_data_plot.rds")
 }
 
-write_csv(alpha_ci, "./outputs/alpha_calibration_bootstrap_ci.csv")
+readr::write_csv(alpha_ci, "./outputs/alpha_calibration_bootstrap_ci.csv")
 
 myplot_ci <- ggplot(data = data.plot.ci %>% filter(Year.cutoff <= 2017), aes(x = Year.cutoff)) +
   geom_bar(aes(y = Crisis.Freq/max(Crisis.Freq)), stat = "identity", alpha = 0.5) +

@@ -13,6 +13,9 @@ This repository is a **clean, self-contained** version of the original project f
 
 From the repo root:
 
+0. (Optional) Minimize the lockfile to only used packages:
+   - `R -q -f scripts/minimize-renv.R`
+
 1. Restore the R package environment (recommended):
    - `R -q -f scripts/restore-renv.R`
 
@@ -23,6 +26,7 @@ This produces `NP_Crisis.html` and writes generated artifacts (CSVs/figures) und
 
 ## Notes
 
+- If you use Quarto directly (e.g., `quarto preview NP_Crisis.Rmd`), you still need step (1) first; this repo uses `renv` (via `.Rprofile`) so packages must be installed into the project library.
 - `rmarkdown::render()` requires Pandoc. Installing RStudio Desktop is the simplest way to get Pandoc on most systems.
 - If you don't have Pandoc (or only want the figures/CSVs), you can knit without rendering:
   - `R --vanilla -q -f scripts/knit.R`
