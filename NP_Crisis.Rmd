@@ -6,8 +6,8 @@ toc: true
 
 ## Reproducibility (Stable Code Reference)
 
-This analysis corresponds to the GitHub repository `yangfengstat/np-crisis` at the tagged release `v1.0`
-(commit `15c1ccbfffda145d846264b29ebcf9b08034e4bc`). For a stable link (not a moving branch), cite:
+This analysis corresponds to the GitHub repository `yangfengstat/np-crisis` at the tagged release `v1.0`.
+For a stable link (not a moving branch), cite:
 
 - `https://github.com/yangfengstat/np-crisis/tree/v1.0`
 - `https://github.com/yangfengstat/np-crisis/releases/tag/v1.0` (once the GitHub Release is created)
