@@ -1,0 +1,81 @@
+Mode: full | cores: 10 
+
+Panel A done. Violation-rate summary (n = 4000 ):
+ alpha           method     R1  viol infeasible
+  0.10      NP umbrella 0.0592 0.063          0
+  0.15      NP umbrella 0.0990 0.079          0
+  0.20      NP umbrella 0.1419 0.078          0
+  0.30      NP umbrella 0.2336 0.069          0
+  0.40      NP umbrella 0.3279 0.074          0
+  0.50      NP umbrella 0.4249 0.067          0
+  0.10 plug-in quantile 0.1039 0.511          0
+  0.15 plug-in quantile 0.1528 0.510          0
+  0.20 plug-in quantile 0.2016 0.500          0
+  0.30 plug-in quantile 0.3008 0.516          0
+  0.40 plug-in quantile 0.3996 0.495          0
+  0.50 plug-in quantile 0.4968 0.477          0
+  0.10        symmetric 0.4387 1.000          0
+  0.15        symmetric 0.4387 1.000          0
+  0.20        symmetric 0.4387 1.000          0
+  0.30        symmetric 0.4387 0.943          0
+  0.40        symmetric 0.4387 0.659          0
+  0.50        symmetric 0.4387 0.263          0
+
+Panel B done.
+B1: Prop-1 asymmetry ratio (down/up) ranges 1.34 to 6.04 over pi in [0.03, 0.30]
+B1b (diagnostic): Eq-12 weight ratio omega1/omega0 by alpha:
+ alpha  omega0   omega1  ratio
+   0.1 0.00398 0.000443 0.1060
+   0.2 0.00413 0.000374 0.0880
+   0.3 0.00457 0.000332 0.0725
+   0.4 0.00523 0.000304 0.0594
+   0.5 0.00615 0.000285 0.0483
+B2: welfare-optimal alpha: 0.90 at true risk 0.042; 0.75 at true risk 0.20
+    symmetric-rule welfare cost is 10.2x the NP optimum (low risk), 457.3x (high risk)
+B3: analytic alpha_bar = 0.355
+
+Panel C done. Overall recovery metrics:
+  mean |bias| = 0.016,  mean RMSE = 0.129
+  t alpha_true alpha_hat_mean     bias   rmse
+  1      0.500          0.496 -0.00433 0.1422
+  2      0.580          0.572 -0.00850 0.1434
+  3      0.660          0.640 -0.01983 0.1391
+  4      0.740          0.716 -0.02417 0.1328
+  5      0.820          0.786 -0.03400 0.1152
+  6      0.900          0.862 -0.03783 0.0997
+  7      0.787          0.765 -0.02267 0.1127
+  8      0.675          0.670 -0.00500 0.1346
+  9      0.562          0.569  0.00667 0.1439
+ 10      0.450          0.447 -0.00317 0.1334
+ 11      0.506          0.498 -0.00858 0.1396
+ 12      0.562          0.552 -0.01050 0.1397
+ 13      0.619          0.614 -0.00508 0.1332
+ 14      0.675          0.663 -0.01183 0.1309
+ 15      0.731          0.713 -0.01842 0.1294
+ 16      0.788          0.769 -0.01817 0.1152
+ 17      0.844          0.824 -0.01992 0.1004
+ 18      0.900          0.844 -0.05567 0.1120
+ 19      0.829          0.808 -0.02057 0.1072
+ 20      0.757          0.730 -0.02764 0.1217
+ 21      0.686          0.661 -0.02455 0.1339
+ 22      0.614          0.608 -0.00595 0.1378
+ 23      0.543          0.546  0.00331 0.1479
+ 24      0.471          0.484  0.01257 0.1416
+ 25      0.400          0.401  0.00100 0.1447
+
+Panel D done.
+Recovery robustness (Panel C metric under perturbations):
+        scenario mean_abs_bias mean_rmse
+        baseline        0.0169     0.129
+    D1a_rt_known        0.0169     0.129
+  D1b_rt_ignored        0.0171     0.129
+ D2_calib_jitter        0.0174     0.128
+
+D3: umbrella violation rates under the misspecified (QDA) DGP:
+ alpha     R1   viol            scenario
+   0.1 0.0424 0.0467 D3_qda_misspecified
+   0.2 0.1173 0.0600 D3_qda_misspecified
+   0.3 0.2070 0.0800 D3_qda_misspecified
+   0.5 0.3977 0.0733 D3_qda_misspecified
+
+All panels finished in 2.5 minutes.
