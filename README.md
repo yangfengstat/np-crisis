@@ -3,6 +3,9 @@
 Code, data, and results for "From Crisis Warnings to Reserve Decisions: A
 Neyman-Pearson Policy-Value Framework" by Yang Feng, Xin Tong, and Weining Xin.
 
+Table and figure numbers below follow the version of the paper that cites the
+tag `revision-3.1`. The code and outputs are identical at `revision-3`.
+
 Earlier versions of the paper, under the title "International Reserves, Crisis
 Risk, and Risk Tolerance", are preserved at the tags `v1.0` and `revision-2`.
 The code at those tags does not reproduce this version.
@@ -58,17 +61,19 @@ earlier environment; restoring it is not required.
 | Paper object | File in `outputs_action/` |
 |---|---|
 | Table 3 (retrospective policy value) | `empirical/primary_summary.csv` |
+| Table 4 (reserve tiers and economic inputs) | `empirical/tier_summary.csv`, `empirical/economic_sensitivity_summary.csv` |
 | Figure 2 (policy value with resampling ranges) | `empirical/figures/policy_value_primary.pdf`, `empirical/staticconditional_bootstrap_summary.csv` |
+| Figure 3 (annual replay) | `empirical/figures/policy_rolling_replay.pdf`, `empirical/rolling_annual_summary.csv` |
+| Figure 4 (Gaussian experiment) | `simulations/action_simulation_two_panels.pdf`, `simulations/action_simulation_summary.csv` |
 | Table S.1 (frozen economic inputs) | `empirical/frozen_theta.csv` |
-| Table S.2, Figure S.1 (Gaussian experiment) | `simulations/action_simulation_summary.csv`, `simulations/action_simulation_policy_table.csv`, `simulations/action_simulation_two_panels.pdf` |
-| Figure S.2 (error tradeoff) | `empirical/figures/policy_error_tradeoff.pdf` |
-| Table S.4, Figure S.3 (100 splits) | `empirical/static_all_splits_summary.csv`, `empirical/split_variability_summary.csv`, `empirical/figures/policy_split_sensitivity.pdf` |
-| Tables S.5 and S.6, Figure S.4 (annual replay) | `empirical/rolling_annual_summary.csv`, `empirical/rolling_pooled_summary.csv`, `empirical/figures/policy_rolling_replay.pdf` |
-| Table S.7 (reserve tiers) | `empirical/tier_summary.csv` |
-| Table S.8 (interest rate and risk aversion) | `empirical/economic_sensitivity_summary.csv` |
-| Tables S.9 and S.10 (resampling, paired comparisons) | `empirical/staticconditional_bootstrap_summary.csv`, `empirical/static_paired_policy_comparisons.csv` |
-| Table S.11 (leave-period-out) | `empirical/leave_period_out.csv` |
-| Table S.12 (probability clipping) | `empirical/ridge_clipping_sensitivity.csv` |
+| Table S.2 (Gaussian experiment policy values) | `simulations/action_simulation_summary.csv`, `simulations/action_simulation_policy_table.csv` |
+| Table S.3 (complete primary comparison) | `empirical/primary_summary.csv` |
+| Figure S.1 (error tradeoff) | `empirical/figures/policy_error_tradeoff.pdf` |
+| Table S.4, Figure S.2 (100 splits) | `empirical/static_all_splits_summary.csv`, `empirical/split_variability_summary.csv`, `empirical/figures/policy_split_sensitivity.pdf` |
+| Tables S.5 and S.6 (annual replay) | `empirical/rolling_annual_summary.csv`, `empirical/rolling_pooled_summary.csv` |
+| Tables S.7 and S.8 (resampling, paired comparisons) | `empirical/staticconditional_bootstrap_summary.csv`, `empirical/static_paired_policy_comparisons.csv` |
+| Table S.9 (leave-period-out) | `empirical/leave_period_out.csv` |
+| Table S.10 (probability clipping) | `empirical/ridge_clipping_sensitivity.csv` |
 
 ## Notes
 
