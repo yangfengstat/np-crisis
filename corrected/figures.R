@@ -1,0 +1,25 @@
+out<-'outputs_corrected/empirical'
+p<-read.csv(file.path(out,'annual_estimates.csv'))
+s<-read.csv(file.path(out,'bootstrap_SE_summary.csv'))
+stopifnot(nrow(s)==25,all(s$B==500))
+plot_alpha <- function(z,boot,col='black',lty=1,pch=16,add=FALSE,xlab='Forecast and reserve year') {
+ zz<-merge(z,boot[,c('year','sd')],by='year');lo<-pmax(0,zz$alpha-zz$sd);hi<-pmin(1,zz$alpha+zz$sd)
+ if(!add)plot(zz$year,zz$alpha,type='n',ylim=c(0,1),xlab=xlab,ylab=expression(alpha),xaxt='n')
+ polygon(c(zz$year,rev(zz$year)),c(lo,rev(hi)),col=adjustcolor(col,alpha.f=.12),border=NA)
+ lines(zz$year,zz$alpha,col=col,lty=lty,lwd=1.4);points(zz$year,zz$alpha,col=col,pch=pch,cex=.5)
+ if(!add)axis(1,at=c(1993,1997,2002,2007,2012,2017))
+}
+pdf(file.path(out,'figure3_corrected.pdf'),width=8,height=7.5)
+par(mfrow=c(2,1),mar=c(4.8,4.5,2,1))
+z<-p[p$model=='SE',];plot_alpha(z,s,xlab='');title('Signal-extraction tolerance index');legend('bottomleft',c('Smallest minimizing bound','Plus/minus one bootstrap SD (500 resamples)'),lty=c(1,NA),pch=c(16,15),col=c('black','grey80'),bty='n',cex=.75)
+plot(z$year,100*z$observed,type='b',pch=1,lwd=1.3,ylim=range(c(0,100*z$observed,100*z$reserve)),xlab='Forecast and reserve year',ylab='Reserves (% of GDP)',xaxt='n');axis(1,at=c(1993,1997,2002,2007,2012,2017));lines(z$year,100*z$reserve,type='b',lty=2,pch=15,lwd=1.3);legend('topleft',c('Observed country median','Model-implied reserves at selected bound'),lty=c(1,2),pch=c(1,15),bty='n',cex=.75);title('Observed reserves and reserve-matching fit')
+dev.off()
+if(!file.exists(file.path(out,'bootstrap_ada_summary.csv'))){cat('PRIMARY EMPIRICAL FIGURE COMPLETE; AdaBoost summary pending\n');quit(status=0)}
+a<-read.csv(file.path(out,'bootstrap_ada_summary.csv'));stopifnot(nrow(a)==25,all(a$B==200))
+pdf(file.path(out,'alpha_model_comparison_corrected.pdf'),width=8,height=4.7)
+par(mar=c(4.8,4.5,2,1));plot_alpha(p[p$model=='SE',],s,col='black');plot_alpha(p[p$model=='ada',],a,col='grey40',lty=2,pch=1,add=TRUE);legend('bottomleft',c('Signal extraction (500 resamples)','AdaBoost (200 resamples)'),lty=c(1,2),pch=c(16,1),col=c('black','grey40'),bty='n',cex=.8);title('Model-conditional tolerance indices')
+dev.off()
+sm<-do.call(rbind,lapply(split(p,p$model),function(z){b<-if(z$model[1]=='SE')s else a;data.frame(model=z$model[1],alpha_min=min(z$alpha),alpha_max=max(z$alpha),mean_alpha=mean(z$alpha),zero_reserve_years=sum(z$reserve==0),n_years=nrow(z),reserve_rmse_pct_GDP=100*sqrt(mean(z$mse)),multiple_minimizer_years=sum(z$n_ties>1),bootstrap_reps=b$B[1],mean_bootstrap_sd=mean(b$sd),min_bootstrap_sd=min(b$sd),max_bootstrap_sd=max(b$sd))}))
+write.csv(sm,file.path(out,'final_summary.csv'),row.names=FALSE)
+writeLines(c(capture.output(print(sm)),capture.output(print(s)),capture.output(print(a))),file.path(out,'final_summary.txt'))
+cat('EMPIRICAL FIGURES COMPLETE\n');print(sm)

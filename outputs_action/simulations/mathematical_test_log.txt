@@ -1,0 +1,10 @@
+PASS: sigma 2 action utility agrees with hand arithmetic 
+PASS: sigma 1 and CE scaling use proportional consumption 
+PASS: Gaussian risk has correct class orientation and limits 
+PASS: population welfare identity equals independent density integration 
+PASS: empirical cutoff maximizes threshold with allowed misses including ties 
+PASS: NP index achieves the advertised probability and fallback is safe 
+PASS: one-sided binomial endpoint and finite-sample coverage are exact 
+PASS: welfare oracle and constrained optimizer separate binding from slack 
+PASS: certificate is a welfare lower bound on its two claimed events 
+Action simulation test failures: 0 

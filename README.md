@@ -1,95 +1,87 @@
-# np-crisis (round-2 revision package)
+# np-crisis
 
-Reproducibility package for "International Reserves, Crisis Risk, and Risk
-Tolerance" (revised version). This is a **clean,
-self-contained** repository: every table and figure in the revised paper,
-its Supplementary Material, and the response letter can be regenerated from
-the files here.
+Code, data, and results for "From Crisis Warnings to Reserve Decisions: A
+Neyman-Pearson Policy-Value Framework" by Yang Feng, Xin Tong, and Weining Xin.
 
-> DRAFT NOTE: this file is the round-2 replacement for `README.md`.
-> Rename it to `README.md` when committing the round-2 package.
-
-## What changed in round 2
-
-1. **Reserve-coverage predictors excluded from the backtest.** The revised
-   analysis file is `NP_Crisis_r2_noReserves.Rmd`; it removes `RES_BMGS`,
-   `RES_BM`, `RES_GDP`, `RES_CH_GDP`, and `RES_D_S` from the predictor set,
-   consistent with Section 2.2 of the paper. The risk-tolerance calibration
-   was already reserve-free, so its outputs are unchanged relative to the
-   previous round.
-2. **New simulation study** (Section S.6 of the Supplementary Material) in
-   `simulations_r2/`.
-3. **Two calibration models documented.** In
-   `NP_Crisis_r2_noReserves.Rmd`, `i.model = 1` (signal extraction)
-   produces Figure 3 of the main text; `i.model = 5` (AdaBoost) produces
-   the robustness series discussed in Section 5.2 and shown in Figure R.1
-   of the response letter. The AdaBoost option requires
-   `np-crisis-helper-funcs-r2.R`, which generalizes one branch of
-   `reserves_match.mse.alpha()`.
-4. `rebuild_tables_r2_noReserves.R` extracts the NP-ROC AUC and AUPC
-   summary tables including the full-feature column (d = 66 after the
-   exclusion), writing `AUC_test_corrected.csv` and
-   `pAUC_test_corrected.csv`.
-
-## Contents
-
-- `NP_Crisis.Rmd`: round-1 analysis (kept for the record; superseded).
-- `NP_Crisis_r2_noReserves.Rmd`: round-2 main analysis. **Knit this file.**
-- `np-crisis-helper-funcs.R` / `np-crisis-helper-funcs-r2.R`: helper
-  functions (the `-r2` version is sourced by the round-2 Rmd).
-- `rebuild_tables_r2_noReserves.R`: builds the corrected Table 3 inputs.
-- `simulations_r2/`: the simulation study (see its own README); standalone,
-  needs only base R plus the `parallel` package, no project data.
-- `data/`: input datasets.
-- `outputs/`: round-1 outputs (kept for the record).
-- `hpc_boot/`: self-contained SLURM workflow (NYU Torch) that computed the
-  500-replication bootstrap band for the AdaBoost robustness recalibration;
-  the merged band is `outputs_r2_noReserves/rds/alpha_calibration_bootstrap_ci.rds`
-  (the AdaBoost run; the signal-extraction equivalents are under
-  `outputs_r2_noReserves/rds/se_based_run1/`).
-- `outputs_r2_noReserves/`: round-2 outputs, including the `rds/` cache
-  that makes reproduction fast by default, and `se_based_run1/` with the
-  signal-extraction calibration outputs backed up separately.
-
-## Mapping from paper objects to files
-
-| Paper object | Produced by | Output |
-|---|---|---|
-| Table 3 (NP-ROC AUC, AUPC, classic AUC) | `NP_Crisis_r2_noReserves.Rmd` + `rebuild_tables_r2_noReserves.R` | `outputs_r2_noReserves/*_corrected.csv`, `ROC_AUC_test_90 CI.csv` |
-| Figure 2 (classic and NP-ROC curves) | `NP_Crisis_r2_noReserves.Rmd` | `outputs_r2_noReserves/roc_classic_nproc_models.png` |
-| Figure 3 (revealed risk tolerance) | `NP_Crisis_r2_noReserves.Rmd` with `i.model = 1` | `outputs_r2_noReserves/rds/se_based_run1/` (identical to round 1) |
-| Section 5.2 robustness series / letter Figure R.1 | `NP_Crisis_r2_noReserves.Rmd` with `i.model = 5` | `outputs_r2_noReserves/rds/alpha_calibration_*.rds` |
-| Supplement S.6 (simulation study, Figures and tables) | `simulations_r2/run-all.R` | `simulations_r2/outputs/` |
+Earlier versions of the paper, under the title "International Reserves, Crisis
+Risk, and Risk Tolerance", are preserved at the tags `v1.0` and `revision-2`.
+The code at those tags does not reproduce this version.
 
 ## Reproduce the results
 
-From the repo root:
+From the repository root:
 
-1. Restore the R package environment (recommended):
-   - `R -q -f scripts/restore-renv.R`
-2. Render the round-2 report:
-   - `Rscript -e "rmarkdown::render('NP_Crisis_r2_noReserves.Rmd')"`
-3. Rebuild the corrected Table 3 inputs:
-   - `Rscript rebuild_tables_r2_noReserves.R`
-4. Run the simulation study (about 3 minutes in full mode on a laptop):
-   - `cd simulations_r2 && Rscript run-all.R full`
+```sh
+Rscript --vanilla run_action_version.R
+```
+
+This runs all ten test files in fresh R sessions, the empirical policy
+evaluation, the four empirical figures, and the Gaussian simulation, and
+recreates `outputs_action/`. Keep a copy of the shipped `outputs_action/` if you
+want to compare. No network access is used. The individual steps are:
+
+```sh
+Rscript --vanilla tests/run_all.R
+Rscript --vanilla corrected/policy_evaluation.R
+Rscript --vanilla corrected/policy_figures.R
+Rscript --vanilla corrected/action_simulations.R
+```
+
+Do not use `corrected/run_all.R`: it is an inherited entrypoint that regenerates
+the earlier warning-share reserve-matching exercise, not this version.
+
+The results were produced with R 4.2.3 on macOS, foreign 0.8-84, glmnet 4.1-7,
+and Matrix 1.5-3. The analysis needs `foreign` and `glmnet`; the inherited
+regression tests also use `ada` and `rpart`. The exact loaded versions are in
+each output directory's `sessionInfo.txt`. `renv.lock` is kept as a record of the
+earlier environment; restoring it is not required.
+
+## Contents
+
+- `run_action_version.R`: entrypoint for this version.
+- `corrected/`: analysis code. `policy_evaluation.R` (score fitting, NP
+  calibration, policy value, sensitivity analyses), `policy_figures.R`,
+  `action_simulations.R`, and the helpers they source (`actions.R`, `core.R`,
+  `data.R`, and others). `ALGORITHM.md` describes the algorithms.
+- `tests/`: unit and regression tests (`tests/run_all.R` runs them all).
+- `data/`: input datasets (unchanged from earlier versions).
+- `outputs_action/empirical/`: country-year predictions, actions, and utilities;
+  frozen and annual economic parameters; split memberships; all 100-split
+  summaries; tier and economic-parameter sensitivity; resampling and paired
+  comparisons; diagnostics; vector figures in `figures/`.
+- `outputs_action/simulations/`: the Gaussian experiment with known population
+  policy values (2000 repetitions per setting), exact benchmarks, and its figure.
+- `scripts/`: inherited `renv` and knitting helpers; not needed for this version.
+
+## Where the paper's results are
+
+| Paper object | File in `outputs_action/` |
+|---|---|
+| Table 3 (retrospective policy value) | `empirical/primary_summary.csv` |
+| Figure 2 (policy value with resampling ranges) | `empirical/figures/policy_value_primary.pdf`, `empirical/staticconditional_bootstrap_summary.csv` |
+| Table S.1 (frozen economic inputs) | `empirical/frozen_theta.csv` |
+| Table S.2, Figure S.1 (Gaussian experiment) | `simulations/action_simulation_summary.csv`, `simulations/action_simulation_policy_table.csv`, `simulations/action_simulation_two_panels.pdf` |
+| Figure S.2 (error tradeoff) | `empirical/figures/policy_error_tradeoff.pdf` |
+| Table S.4, Figure S.3 (100 splits) | `empirical/static_all_splits_summary.csv`, `empirical/split_variability_summary.csv`, `empirical/figures/policy_split_sensitivity.pdf` |
+| Tables S.5 and S.6, Figure S.4 (annual replay) | `empirical/rolling_annual_summary.csv`, `empirical/rolling_pooled_summary.csv`, `empirical/figures/policy_rolling_replay.pdf` |
+| Table S.7 (reserve tiers) | `empirical/tier_summary.csv` |
+| Table S.8 (interest rate and risk aversion) | `empirical/economic_sensitivity_summary.csv` |
+| Tables S.9 and S.10 (resampling, paired comparisons) | `empirical/staticconditional_bootstrap_summary.csv`, `empirical/static_paired_policy_comparisons.csv` |
+| Table S.11 (leave-period-out) | `empirical/leave_period_out.csv` |
+| Table S.12 (probability clipping) | `empirical/ridge_clipping_sensitivity.csv` |
 
 ## Notes
 
-- By default `use_cached_rds <- TRUE`, so the shipped cache in
-  `outputs_r2_noReserves/rds/` is reused and rendering is fast. Set it to
-  `FALSE` to recompute everything; the full backtest (five classifiers over
-  the alpha and screening grids) plus the 500-replication bootstrap takes
-  several hours.
-- The shipped cache was generated with the reserve-coverage exclusion in
-  place; do not mix it with the round-1 cache in `outputs/rds/`.
-- To reproduce the AdaBoost robustness calibration, set `i.model <- 5` in
-  the calibration chunk and move the `alpha_calibration_*.rds` files out of
-  `outputs_r2_noReserves/rds/` first (cached calibration results would
-  otherwise be reused). The signal-extraction versions are preserved in
-  `outputs_r2_noReserves/rds/se_based_run1/`.
-- The umbrella threshold requires at least `log(delta)/log(1-alpha)`
-  left-out crisis observations, so the smallest feasible missed-crisis
-  bound at this sample size is about 0.06; grids therefore start at 0.10.
-- `rmarkdown::render()` requires Pandoc; `R --vanilla -q -f scripts/knit.R`
-  knits without it.
+- Policy values are generated by the reserve-insurance model at observed crisis
+  outcomes. They are not observed consumption gains or causal effects of
+  reserve interventions.
+- Country and two-year calendar-block resampling ranges hold the policies fixed
+  and describe sensitivity; they do not certify nominal coverage for this
+  dependent panel.
+- Crisis labels are retrospective and use full-sample event definitions; the
+  analysis does not reconstruct real-time data vintages.
+- Columns whose classifier name begins with `logistic` refer to ridge logistic
+  regression.
+- A full run takes about a minute and a half on a laptop. The row order of some
+  summary tables depends on the R session locale (the shipped outputs were
+  produced under `C.UTF-8`); the values are unchanged.

@@ -1,0 +1,362 @@
+List of 25
+ $ version                      : chr "2026-10-15-direct-reserve-actions-v3.2"
+ $ train_end                    : num 2007
+ $ eval_years                   : int [1:10] 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017
+ $ seeds                        : int [1:100] 20261015 20261016 20261017 20261018 20261019 20261020 20261021 20261022 20261023 20261024 ...
+ $ tiers                        :'data.frame':	4 obs. of  2 variables:
+  ..$ low : num [1:4] 0.05 0 0.1 0.05
+  ..$ high: num [1:4] 0.15 0.1 0.2 0.25
+ $ alphas                       : num [1:3] 0.1 0.2 0.25
+ $ delta                        : num 0.1
+ $ country_bootstrap_B          : int 1000
+ $ moving_block_years           : int 2
+ $ bootstrap_conditional_on_fits: logi TRUE
+ $ historically_inspected       : logi TRUE
+ $ n_train                      : int 1436
+ $ n_train_crisis               : num 49
+ $ n_test                       : int 530
+ $ n_labeled                    : int 496
+ $ n_test_crisis                : num 33
+ $ n_fit                        : int 1411
+ $ n_calibration                : int 25
+ $ odds_multiplier              : num 2.04
+ $ theta                        :List of 7
+  ..$ sigma   : num 2
+  ..$ r       : num 0.05
+  ..$ g       : num 0.0446
+  ..$ lambda  : num 0.0578
+  ..$ gamma   : num 0.0518
+  ..$ pi.bar  : num 0.033
+  ..$ delta.op: num 0.011
+ $ economic_scenarios           : chr [1:5] "baseline" "r=.03" "r=.07" "sigma=1" ...
+ $ scripts_md5                  : Named chr [1:4] "73008963ed06ea7b01697b821e72142d" "dcc174292534228ca3c6c07747b81827" "1b5fa789e2f91cd787de7813a6592ada" "7028435d1566523b13fbea22dbbaf30f"
+  ..- attr(*, "names")= chr [1:4] "corrected/core.R" "corrected/data.R" "corrected/actions.R" "corrected/policy_evaluation.R"
+ $ data_md5                     : Named chr [1:6] "cac6f13d39d2cefb1f44959b9120a5b5" "1cd6a1e25560a54e820bcf1e6ce2a4ee" "9fc595e3b1dab5787153168fa0d53fed" "f70ece605e45c1c9a08c74a842d26b93" ...
+  ..- attr(*, "names")= chr [1:6] "data/Calibration_CrisisIdentificationData_53EM_19802017_10_29_2018.dta" "data/Calibration_GlobalShocksData_19802017.dta" "data/External_database_withSuddenStopGI_19802019_public_08_04_2019_forecasting_h1_v12.dta" "data/External_database_withSuddenStopGI_19802019_public_09_18_2019_forecasting_h1_v12.dta" ...
+ $ sessionInfo                  :List of 12
+  ..$ R.version      :List of 14
+  .. ..$ platform      : chr "aarch64-apple-darwin20"
+  .. ..$ arch          : chr "aarch64"
+  .. ..$ os            : chr "darwin20"
+  .. ..$ system        : chr "aarch64, darwin20"
+  .. ..$ status        : chr ""
+  .. ..$ major         : chr "4"
+  .. ..$ minor         : chr "2.3"
+  .. ..$ year          : chr "2023"
+  .. ..$ month         : chr "03"
+  .. ..$ day           : chr "15"
+  .. ..$ svn rev       : chr "83980"
+  .. ..$ language      : chr "R"
+  .. ..$ version.string: chr "R version 4.2.3 (2023-03-15)"
+  .. ..$ nickname      : chr "Shortstop Beagle"
+  ..$ platform       : chr "aarch64-apple-darwin20 (64-bit)"
+  ..$ locale         : chr "C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8"
+  ..$ running        : chr "macOS 27.0.1"
+  ..$ RNGkind        : chr [1:3] "Mersenne-Twister" "Inversion" "Rejection"
+  ..$ basePkgs       : chr [1:7] "stats" "graphics" "grDevices" "utils" ...
+  ..$ loadedOnly     :List of 14
+  .. ..$ compiler :List of 10
+  .. .. ..$ Package    : chr "compiler"
+  .. .. ..$ Version    : chr "4.2.3"
+  .. .. ..$ Priority   : chr "base"
+  .. .. ..$ Title      : chr "The R Compiler Package"
+  .. .. ..$ Author     : chr "Luke Tierney <luke-tierney@uiowa.edu>"
+  .. .. ..$ Maintainer : chr "R Core Team <do-use-Contact-address@r-project.org>"
+  .. .. ..$ Contact    : chr "R-help mailing list <r-help@r-project.org>"
+  .. .. ..$ Description: chr "Byte code compiler for R."
+  .. .. ..$ License    : chr "Part of R 4.2.3"
+  .. .. ..$ Built      : chr "R 4.2.3; ; 2023-03-17 21:12:20 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/compiler/Meta/package.rds"
+  .. ..$ Matrix   :List of 27
+  .. .. ..$ Package         : chr "Matrix"
+  .. .. ..$ Version         : chr "1.5-3"
+  .. .. ..$ Date            : chr "2022-11-09"
+  .. .. ..$ Priority        : chr "recommended"
+  .. .. ..$ Title           : chr "Sparse and Dense Matrix Classes and Methods"
+  .. .. ..$ Contact         : chr "Matrix-authors@R-project.org"
+  .. .. ..$ Maintainer      : chr "Martin Maechler <mmaechler+Matrix@gmail.com>"
+  .. .. ..$ Authors@R       : chr "c(person(\"Douglas\", \"Bates\", role = \"aut\")\n , person(\"Martin\", \"Maechler\", role = c(\"aut\", \"cre\""| __truncated__
+  .. .. ..$ Description     : chr "A rich hierarchy of matrix classes, including triangular,\n   symmetric, and diagonal matrices, both dense and "| __truncated__
+  .. .. ..$ Depends         : chr "R (>= 3.5.0), methods"
+  .. .. ..$ Imports         : chr "graphics, grid, lattice, stats, utils"
+  .. .. ..$ Suggests        : chr "expm, MASS"
+  .. .. ..$ Enhances        : chr "MatrixModels, graph, SparseM, sfsmisc, igraph, maptools, sp,\nspdep"
+  .. .. ..$ EnhancesNote    : chr "line 2: for \"Rd xrefs\""
+  .. .. ..$ Encoding        : chr "UTF-8"
+  .. .. ..$ LazyData        : chr "no"
+  .. .. ..$ LazyDataNote    : chr "not possible, since we use data/*.R *and* our classes"
+  .. .. ..$ BuildResaveData : chr "no"
+  .. .. ..$ License         : chr "GPL (>= 2) | file LICENCE"
+  .. .. ..$ URL             : chr "https://Matrix.R-forge.R-project.org/,\nhttps://Matrix.R-forge.R-project.org/doxygen/"
+  .. .. ..$ BugReports      : chr "https://R-forge.R-project.org/tracker/?atid=294&group_id=61"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Packaged        : chr "2022-11-10 14:57:57 UTC; maechler"
+  .. .. ..$ Author          : chr "Douglas Bates [aut],\n  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),\n  Mikael Jagan ["| __truncated__
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2022-11-11 08:30:10 UTC"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:13:19 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/Matrix/Meta/package.rds"
+  .. ..$ tools    :List of 12
+  .. .. ..$ Package         : chr "tools"
+  .. .. ..$ Version         : chr "4.2.3"
+  .. .. ..$ Priority        : chr "base"
+  .. .. ..$ Title           : chr "Tools for Package Development"
+  .. .. ..$ Author          : chr "R Core Team"
+  .. .. ..$ Maintainer      : chr "R Core Team <do-use-Contact-address@r-project.org>"
+  .. .. ..$ Contact         : chr "R-help mailing list <r-help@r-project.org>"
+  .. .. ..$ Description     : chr "Tools for package development, administration and documentation."
+  .. .. ..$ License         : chr "Part of R 4.2.3"
+  .. .. ..$ Suggests        : chr "codetools, methods, xml2, curl, commonmark, knitr, xfun, mathjaxr"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:12:20 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/tools/Meta/package.rds"
+  .. ..$ foreign  :List of 24
+  .. .. ..$ Package         : chr "foreign"
+  .. .. ..$ Priority        : chr "recommended"
+  .. .. ..$ Version         : chr "0.8-84"
+  .. .. ..$ Date            : chr "2022-12-06"
+  .. .. ..$ Title           : chr "Read Data Stored by 'Minitab', 'S', 'SAS', 'SPSS', 'Stata',\n'Systat', 'Weka', 'dBase', ..."
+  .. .. ..$ Depends         : chr "R (>= 4.0.0)"
+  .. .. ..$ Imports         : chr "methods, utils, stats"
+  .. .. ..$ Authors@R       : chr "c(\n   person(\"R Core Team\",\n      email = \"R-core@R-project.org\", role = c(\"aut\", \"cph\", \"cre\")),\n"| __truncated__
+  .. .. ..$ Contact         : chr "see 'MailingList'"
+  .. .. ..$ Copyright       : chr "see file COPYRIGHTS"
+  .. .. ..$ Description     : chr "Reading and writing data stored by some versions of\n\t'Epi Info', 'Minitab', 'S', 'SAS', 'SPSS', 'Stata', 'Sys"| __truncated__
+  .. .. ..$ ByteCompile     : chr "yes"
+  .. .. ..$ Biarch          : chr "yes"
+  .. .. ..$ License         : chr "GPL (>= 2)"
+  .. .. ..$ BugReports      : chr "https://bugs.r-project.org"
+  .. .. ..$ MailingList     : chr "R-help@r-project.org"
+  .. .. ..$ URL             : chr "https://svn.r-project.org/R-packages/trunk/foreign/"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Packaged        : chr "2022-12-06 07:44:50 UTC; ripley"
+  .. .. ..$ Author          : chr "R Core Team [aut, cph, cre],\n  Roger Bivand [ctb, cph],\n  Vincent J. Carey [ctb, cph],\n  Saikat DebRoy [ctb,"| __truncated__
+  .. .. ..$ Maintainer      : chr "R Core Team <R-core@R-project.org>"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2022-12-06 09:00:40 UTC"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:13:13 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/foreign/Meta/package.rds"
+  .. ..$ survival :List of 21
+  .. .. ..$ Title              : chr "Survival Analysis"
+  .. .. ..$ Priority           : chr "recommended"
+  .. .. ..$ Package            : chr "survival"
+  .. .. ..$ Version            : chr "3.5-3"
+  .. .. ..$ Date               : chr "2023-02-06"
+  .. .. ..$ Depends            : chr "R (>= 3.5.0)"
+  .. .. ..$ Imports            : chr "graphics, Matrix, methods, splines, stats, utils"
+  .. .. ..$ LazyData           : chr "Yes"
+  .. .. ..$ LazyDataCompression: chr "xz"
+  .. .. ..$ ByteCompile        : chr "Yes"
+  .. .. ..$ Authors@R          : chr "c(person(c(\"Terry\", \"M\"), \"Therneau\",\n                    email=\"therneau.terry@mayo.edu\",\n\t        "| __truncated__
+  .. .. ..$ Description        : chr "Contains the core survival analysis routines, including\n\t     definition of Surv objects, \n\t     Kaplan-Mei"| __truncated__
+  .. .. ..$ License            : chr "LGPL (>= 2)"
+  .. .. ..$ URL                : chr "https://github.com/therneau/survival"
+  .. .. ..$ NeedsCompilation   : chr "yes"
+  .. .. ..$ Packaged           : chr "2023-02-06 14:06:33 UTC; therneau"
+  .. .. ..$ Author             : chr "Terry M Therneau [aut, cre],\n  Thomas Lumley [ctb, trl] (original S->R port and R maintainer until\n    2009),"| __truncated__
+  .. .. ..$ Maintainer         : chr "Terry M Therneau <therneau.terry@mayo.edu>"
+  .. .. ..$ Repository         : chr "CRAN"
+  .. .. ..$ Date/Publication   : chr "2023-02-12 21:30:05 UTC"
+  .. .. ..$ Built              : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:13:46 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/survival/Meta/package.rds"
+  .. ..$ Rcpp     :List of 21
+  .. .. ..$ Package         : chr "Rcpp"
+  .. .. ..$ Title           : chr "Seamless R and C++ Integration"
+  .. .. ..$ Version         : chr "1.1.0"
+  .. .. ..$ Date            : chr "2025-07-01"
+  .. .. ..$ Authors@R       : chr "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\",\n                 "| __truncated__
+  .. .. ..$ Description     : chr "The 'Rcpp' package provides R functions as well as C++ classes which\n offer a seamless integration of R and C+"| __truncated__
+  .. .. ..$ Imports         : chr "methods, utils"
+  .. .. ..$ Suggests        : chr "tinytest, inline, rbenchmark, pkgKitten (>= 0.1.2)"
+  .. .. ..$ URL             : chr "https://www.rcpp.org,\nhttps://dirk.eddelbuettel.com/code/rcpp.html,\nhttps://github.com/RcppCore/Rcpp"
+  .. .. ..$ License         : chr "GPL (>= 2)"
+  .. .. ..$ BugReports      : chr "https://github.com/RcppCore/Rcpp/issues"
+  .. .. ..$ MailingList     : chr "rcpp-devel@lists.r-forge.r-project.org"
+  .. .. ..$ RoxygenNote     : chr "6.1.1"
+  .. .. ..$ Encoding        : chr "UTF-8"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Packaged        : chr "2025-07-01 12:58:41 UTC; edd"
+  .. .. ..$ Author          : chr "Dirk Eddelbuettel [aut, cre] (ORCID:\n    <https://orcid.org/0000-0001-6419-907X>),\n  Romain Francois [aut] (O"| __truncated__
+  .. .. ..$ Maintainer      : chr "Dirk Eddelbuettel <edd@debian.org>"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2025-07-02 16:40:02 UTC"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2025-08-28 04:29:50 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/Rcpp/Meta/package.rds"
+  .. ..$ splines  :List of 13
+  .. .. ..$ Package         : chr "splines"
+  .. .. ..$ Version         : chr "4.2.3"
+  .. .. ..$ Priority        : chr "base"
+  .. .. ..$ Imports         : chr "graphics, stats"
+  .. .. ..$ Title           : chr "Regression Spline Functions and Classes"
+  .. .. ..$ Author          : chr "Douglas M. Bates <bates@stat.wisc.edu> and\n William N. Venables <Bill.Venables@csiro.au>"
+  .. .. ..$ Maintainer      : chr "R Core Team <do-use-Contact-address@r-project.org>"
+  .. .. ..$ Contact         : chr "R-help mailing list <r-help@r-project.org>"
+  .. .. ..$ Description     : chr "Regression spline functions and classes."
+  .. .. ..$ License         : chr "Part of R 4.2.3"
+  .. .. ..$ Suggests        : chr "Matrix, methods"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:13:03 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/splines/Meta/package.rds"
+  .. ..$ codetools:List of 15
+  .. .. ..$ Package         : chr "codetools"
+  .. .. ..$ Version         : chr "0.2-19"
+  .. .. ..$ Priority        : chr "recommended"
+  .. .. ..$ Author          : chr "Luke Tierney <luke-tierney@uiowa.edu>"
+  .. .. ..$ Description     : chr "Code analysis tools for R."
+  .. .. ..$ Title           : chr "Code Analysis Tools for R"
+  .. .. ..$ Depends         : chr "R (>= 2.1)"
+  .. .. ..$ Maintainer      : chr "Luke Tierney <luke-tierney@uiowa.edu>"
+  .. .. ..$ URL             : chr "https://gitlab.com/luke-tierney/codetools"
+  .. .. ..$ License         : chr "GPL"
+  .. .. ..$ NeedsCompilation: chr "no"
+  .. .. ..$ Packaged        : chr "2023-01-31 19:16:51 UTC; luke"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2023-02-01 13:21:59 UTC"
+  .. .. ..$ Built           : chr "R 4.2.3; ; 2023-03-17 21:13:13 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/codetools/Meta/package.rds"
+  .. ..$ grid     :List of 12
+  .. .. ..$ Package         : chr "grid"
+  .. .. ..$ Version         : chr "4.2.3"
+  .. .. ..$ Priority        : chr "base"
+  .. .. ..$ Title           : chr "The Grid Graphics Package"
+  .. .. ..$ Author          : chr "Paul Murrell <paul@stat.auckland.ac.nz>"
+  .. .. ..$ Maintainer      : chr "R Core Team <do-use-Contact-address@r-project.org>"
+  .. .. ..$ Contact         : chr "R-help mailing list <r-help@r-project.org>"
+  .. .. ..$ Description     : chr "A rewrite of the graphics layout capabilities, plus some\n  support for interaction."
+  .. .. ..$ Imports         : chr "grDevices, utils"
+  .. .. ..$ License         : chr "Part of R 4.2.3"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:13:01 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/grid/Meta/package.rds"
+  .. ..$ iterators:List of 17
+  .. .. ..$ Package         : chr "iterators"
+  .. .. ..$ Type            : chr "Package"
+  .. .. ..$ Title           : chr "Provides Iterator Construct"
+  .. .. ..$ Version         : chr "1.0.14"
+  .. .. ..$ Authors@R       : chr "c(person(\"Folashade\", \"Daniel\", role=\"cre\", email=\"fdaniel@microsoft.com\"),\n             person(\"Revo"| __truncated__
+  .. .. ..$ Description     : chr "Support for iterators, which allow a programmer to traverse\n    through all the elements of a vector, list, or"| __truncated__
+  .. .. ..$ URL             : chr "https://github.com/RevolutionAnalytics/iterators"
+  .. .. ..$ Depends         : chr "R (>= 2.5.0), utils"
+  .. .. ..$ Suggests        : chr "RUnit, foreach"
+  .. .. ..$ License         : chr "Apache License (== 2.0)"
+  .. .. ..$ NeedsCompilation: chr "no"
+  .. .. ..$ Packaged        : chr "2022-01-16 18:19:31 UTC; folashade"
+  .. .. ..$ Author          : chr "Folashade Daniel [cre],\n  Revolution Analytics [aut, cph],\n  Steve Weston [aut]"
+  .. .. ..$ Maintainer      : chr "Folashade Daniel <fdaniel@microsoft.com>"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2022-02-05 00:50:08 UTC"
+  .. .. ..$ Built           : chr "R 4.2.0; ; 2023-04-01 09:32:03 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/iterators/Meta/package.rds"
+  .. ..$ foreach  :List of 22
+  .. .. ..$ Package         : chr "foreach"
+  .. .. ..$ Type            : chr "Package"
+  .. .. ..$ Title           : chr "Provides Foreach Looping Construct"
+  .. .. ..$ Version         : chr "1.5.2"
+  .. .. ..$ Authors@R       : chr "c(person(\"Folashade\", \"Daniel\", role=\"cre\", email=\"fdaniel@microsoft.com\"),\n             person(\"Hong"| __truncated__
+  .. .. ..$ Description     : chr "Support for the foreach looping construct.  Foreach is an\n        idiom that allows for iterating over element"| __truncated__
+  .. .. ..$ License         : chr "Apache License (== 2.0)"
+  .. .. ..$ URL             : chr "https://github.com/RevolutionAnalytics/foreach"
+  .. .. ..$ BugReports      : chr "https://github.com/RevolutionAnalytics/foreach/issues"
+  .. .. ..$ Depends         : chr "R (>= 2.5.0)"
+  .. .. ..$ Imports         : chr "codetools, utils, iterators"
+  .. .. ..$ Suggests        : chr "randomForest, doMC, doParallel, testthat, knitr, rmarkdown"
+  .. .. ..$ VignetteBuilder : chr "knitr"
+  .. .. ..$ RoxygenNote     : chr "7.1.1"
+  .. .. ..$ Collate         : chr "'callCombine.R' 'foreach.R' 'do.R' 'foreach-ext.R'\n'foreach-pkg.R' 'getDoPar.R' 'getDoSeq.R' 'getsyms.R' 'iter"| __truncated__
+  .. .. ..$ NeedsCompilation: chr "no"
+  .. .. ..$ Packaged        : chr "2022-01-11 04:21:12 UTC; fdaniel"
+  .. .. ..$ Author          : chr "Folashade Daniel [cre],\n  Hong Ooi [ctb],\n  Rich Calaway [ctb],\n  Microsoft [aut, cph],\n  Steve Weston [aut]"
+  .. .. ..$ Maintainer      : chr "Folashade Daniel <fdaniel@microsoft.com>"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2022-02-02 09:20:02 UTC"
+  .. .. ..$ Built           : chr "R 4.2.0; ; 2023-04-01 16:40:28 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/foreach/Meta/package.rds"
+  .. ..$ shape    :List of 14
+  .. .. ..$ Package         : chr "shape"
+  .. .. ..$ Version         : chr "1.4.6"
+  .. .. ..$ Title           : chr "Functions for Plotting Graphical Shapes, Colors"
+  .. .. ..$ Author          : chr "Karline Soetaert <karline.soetaert@nioz.nl>"
+  .. .. ..$ Maintainer      : chr "Karline Soetaert <karline.soetaert@nioz.nl>"
+  .. .. ..$ Depends         : chr "R (>= 2.01)"
+  .. .. ..$ Imports         : chr "stats, graphics, grDevices"
+  .. .. ..$ Description     : chr "Functions for plotting graphical shapes\n  such as ellipses, circles, cylinders, arrows, ..."
+  .. .. ..$ License         : chr "GPL (>= 3)"
+  .. .. ..$ NeedsCompilation: chr "no"
+  .. .. ..$ Packaged        : chr "2021-05-19 06:02:02 UTC; karlines"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2021-05-19 07:20:03 UTC"
+  .. .. ..$ Built           : chr "R 4.2.0; ; 2023-04-01 09:41:18 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/shape/Meta/package.rds"
+  .. ..$ glmnet   :List of 25
+  .. .. ..$ Package           : chr "glmnet"
+  .. .. ..$ Type              : chr "Package"
+  .. .. ..$ Title             : chr "Lasso and Elastic-Net Regularized Generalized Linear Models"
+  .. .. ..$ Version           : chr "4.1-7"
+  .. .. ..$ Date              : chr "2023-03-17"
+  .. .. ..$ Authors@R         : chr "c(person(\"Jerome\", \"Friedman\", role=c(\"aut\")),\n\t     person(\"Trevor\", \"Hastie\", role=c(\"aut\", \"c"| __truncated__
+  .. .. ..$ Depends           : chr "R (>= 3.6.0), Matrix (>= 1.0-6)"
+  .. .. ..$ Imports           : chr "methods, utils, foreach, shape, survival, Rcpp"
+  .. .. ..$ Suggests          : chr "knitr, lars, testthat, xfun, rmarkdown"
+  .. .. ..$ SystemRequirements: chr "C++17"
+  .. .. ..$ Description       : chr "Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regre"| __truncated__
+  .. .. ..$ License           : chr "GPL-2"
+  .. .. ..$ VignetteBuilder   : chr "knitr"
+  .. .. ..$ Encoding          : chr "UTF-8"
+  .. .. ..$ URL               : chr "https://glmnet.stanford.edu"
+  .. .. ..$ RoxygenNote       : chr "7.2.3"
+  .. .. ..$ LinkingTo         : chr "RcppEigen, Rcpp"
+  .. .. ..$ NeedsCompilation  : chr "yes"
+  .. .. ..$ Packaged          : chr "2023-03-23 00:13:19 UTC; hastie"
+  .. .. ..$ Author            : chr "Jerome Friedman [aut],\n  Trevor Hastie [aut, cre],\n  Rob Tibshirani [aut],\n  Balasubramanian Narasimhan [aut"| __truncated__
+  .. .. ..$ Maintainer        : chr "Trevor Hastie <hastie@stanford.edu>"
+  .. .. ..$ Repository        : chr "CRAN"
+  .. .. ..$ Date/Publication  : chr "2023-03-23 01:40:02 UTC"
+  .. .. ..$ Built             : chr "R 4.2.0; aarch64-apple-darwin20; 2023-04-10 22:59:30 UTC; unix"
+  .. .. ..$ Archs             : chr "glmnet.so.dSYM"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/glmnet/Meta/package.rds"
+  .. ..$ lattice  :List of 23
+  .. .. ..$ Package         : chr "lattice"
+  .. .. ..$ Version         : chr "0.20-45"
+  .. .. ..$ Date            : chr "2021-09-18"
+  .. .. ..$ Priority        : chr "recommended"
+  .. .. ..$ Title           : chr "Trellis Graphics for R"
+  .. .. ..$ Authors@R       : chr "c(person(\"Deepayan\", \"Sarkar\", role = c(\"aut\", \"cre\"),\n\t            email = \"deepayan.sarkar@r-proje"| __truncated__
+  .. .. ..$ Description     : chr "A powerful and elegant high-level data visualization\n  system inspired by Trellis graphics, with an emphasis o"| __truncated__
+  .. .. ..$ Depends         : chr "R (>= 3.0.0)"
+  .. .. ..$ Suggests        : chr "KernSmooth, MASS, latticeExtra"
+  .. .. ..$ Imports         : chr "grid, grDevices, graphics, stats, utils"
+  .. .. ..$ Enhances        : chr "chron"
+  .. .. ..$ LazyLoad        : chr "yes"
+  .. .. ..$ LazyData        : chr "yes"
+  .. .. ..$ License         : chr "GPL (>= 2)"
+  .. .. ..$ URL             : chr "http://lattice.r-forge.r-project.org/"
+  .. .. ..$ BugReports      : chr "https://github.com/deepayan/lattice/issues"
+  .. .. ..$ NeedsCompilation: chr "yes"
+  .. .. ..$ Packaged        : chr "2021-09-22 09:17:07 UTC; deepayan"
+  .. .. ..$ Author          : chr "Deepayan Sarkar [aut, cre] (<https://orcid.org/0000-0003-4107-1553>),\n  Felix Andrews [ctb],\n  Kevin Wright ["| __truncated__
+  .. .. ..$ Maintainer      : chr "Deepayan Sarkar <deepayan.sarkar@r-project.org>"
+  .. .. ..$ Repository      : chr "CRAN"
+  .. .. ..$ Date/Publication: chr "2021-09-22 12:10:02 UTC"
+  .. .. ..$ Built           : chr "R 4.2.3; aarch64-apple-darwin20; 2023-03-17 21:13:13 UTC; unix"
+  .. .. ..- attr(*, "class")= chr "packageDescription"
+  .. .. ..- attr(*, "file")= chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/library/lattice/Meta/package.rds"
+  ..$ matprod        : chr "default"
+  ..$ BLAS           : chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib"
+  ..$ LAPACK         : chr "/Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib"
+  ..$ system.codepage: chr "NULL"
+  ..$ codepage       : chr "NULL"
+  ..- attr(*, "class")= chr "sessionInfo"
+ $ max_identity_error           : num 3.12e-16
