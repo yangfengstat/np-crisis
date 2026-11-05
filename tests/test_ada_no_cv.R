@@ -1,0 +1,5 @@
+source('corrected/data.R');if(file.exists('corrected/ada_no_cv.R'))source('corrected/ada_no_cv.R')
+stopifnot(exists('fit_np_ada'));set.seed(18);x<-matrix(rnorm(400*5),400,5);y<-rbinom(400,1,.2)
+f<-fit_np_ada(x,y,seed=18);stopifnot(f$base$model$trees[[1]]$control$xval==0,all(is.finite(predict_score(f,x))))
+stopifnot(length(intersect(f$fit_idx,f$cal_idx))==0)
+cat('PASS AdaBoost uses explicitly disabled unused tree cross-validation\n')

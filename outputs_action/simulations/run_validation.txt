@@ -1,0 +1,4 @@
+Replicates per setting: 2000
+Rows: 192000
+Elapsed seconds: 8.619
+Maximum identity error: 4.4408920985006262e-16
