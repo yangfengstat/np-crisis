@@ -149,9 +149,9 @@ action_sim_plot<-function(summary,theory,cfg,path) {
     arrows(x,z$R1_violation_low95,x,z$R1_violation_high95,angle=90,code=3,length=.035,col=cols[k])
     lines(x,z$R1_violation_mean,type='b',pch=c(16,17,1,2)[k],col=cols[k],lty=if(k<=2)1 else 2)
   }
-  legend('topleft',c('NP: m=25','NP: m=100','Empirical: m=25','Empirical: m=100'),
-    col=cols,pch=c(16,17,1,2),lty=c(1,1,2,2),bty='n',cex=.8)
-  text(.27,.112,'delta=0.10',adj=1,cex=.75,col='gray35')
+  legend(.175,.32,c('NP: m=25','NP: m=100','Empirical: m=25','Empirical: m=100'),
+    col=cols,pch=c(16,17,1,2),lty=c(1,1,2,2),bty='n',cex=.8,xjust=.5,yjust=.5)
+  text(.15,.13,'delta=0.10',cex=.75,col='gray35')
   zz<-summary[summary$p==.05,]
   yr<-range(zz$CE_low95,zz$CE_high95,na.rm=TRUE)*10000
   plot(NA,xlim=c(.085,.265),ylim=yr,xlab='Missed-crisis bound alpha',
@@ -169,7 +169,7 @@ action_sim_plot<-function(summary,theory,cfg,path) {
   }
   legend('bottomright',c('NP: m=25','NP: m=100','Empirical: m=100',
     'NP + known welfare cap: m=100','Constrained welfare oracle','Welfare oracle'),
-    col=cl,pch=c(16,17,1,15,2,NA),lty=c(1,1,2,1,2,3),bty='n',cex=.75)
+    col=cl,pch=c(16,17,1,15,2,NA),lty=c(1,1,2,1,2,3),bty='n',cex=.75,inset=c(.01,.05))
 }
 run_action_simulations<-function(B=2000L) {
   source('corrected/data.R')
