@@ -4,9 +4,12 @@ Code, data, and results for "From Crisis Warnings to Reserve Decisions: A
 Neyman-Pearson Policy-Value Framework" by Yang Feng, Xin Tong, and Weining Xin.
 
 Table and figure numbers below follow the version of the paper that cites the
-tag `revision-3.3`. Numerical results are identical at `revision-3`,
-`revision-3.1`, and `revision-3.2`; `revision-3.3` changes only the legend and
-label placement in the Figure 5 plot (`corrected/action_simulations.R`).
+tag `revision-3.4`. Numerical results are identical at `revision-3`,
+`revision-3.1`, `revision-3.2`, and `revision-3.3`; `revision-3.3` changes only
+the legend and label placement in the Figure 5 plot
+(`corrected/action_simulations.R`), and `revision-3.4` changes only the line
+types, symbols, and label placement in the Figure 2 plot
+(`corrected/policy_figures.R`).
 
 Earlier versions of the paper, under the title "International Reserves, Crisis
 Risk, and Risk Tolerance", are preserved at the tags `v1.0` and `revision-2`.

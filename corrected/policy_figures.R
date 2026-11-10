@@ -26,17 +26,21 @@ abline(v=0,col='gray55',lty=2);points(x,y,pch=23,bg='white',cex=.8)
 dev.off()
 pdf(file.path(fig,'policy_error_tradeoff.pdf'),width=7.4,height=5.3,family='Helvetica',useDingbats=FALSE)
 par(mar=c(4.3,4.6,2.3,1.2),las=1,mgp=c(2.7,.6,0),cex=.9)
-plot(NA,xlim=c(0,1),ylim=c(0,1),xlab='False-alarm rate R0',ylab='Missed-crisis rate R1',main='Primary split: realized conditional error rates')
+plot(NA,xlim=c(0,1),ylim=c(-.03,1),xlab='False-alarm rate R0',ylab='Missed-crisis rate R1',main='Primary split: realized conditional error rates')
 abline(h=seq(0,1,.2),v=seq(0,1,.2),col='#ECEFF1')
+# Score families differ by line type and filled/open symbols as well as color.
+# NP labels are placed by hand so that they clear the points and both lines.
+lab<-list(SE=list(dx=c(.012,.052,-.040),dy=c(.042,.036,.034)),logistic=list(dx=c(-.040,0,0),dy=c(-.036,-.036,-.036)))
 for(m in c('SE','logistic')){
- z<-s[grepl(paste0('^',m,'_NP'),s$method),];col<-if(m=='SE')'#167C80'else '#B14F32'
- lines(z$R0,z$R1,col=col,lwd=1.7);points(z$R0,z$R1,col=col,pch=19)
- text(z$R0,z$R1,labels=sub('.*_NP_','',z$method),pos=if(m=='SE')3 else c(2,1,1),col=col,cex=.77)
- ze<-s[s$method==paste0(m,'_economic'),];points(ze$R0,ze$R1,col=col,pch=17,cex=1.2)
- zb<-s[s$method==paste0(m,'_equal_error'),];points(zb$R0,zb$R1,col=col,pch=15,cex=1.1)
+ se<-m=='SE';col<-if(se)'#167C80'else '#B14F32'
+ z<-s[grepl(paste0('^',m,'_NP'),s$method),];z<-z[order(z$method),]
+ lines(z$R0,z$R1,col=col,lwd=1.7,lty=if(se)1 else 2);points(z$R0,z$R1,col=col,pch=if(se)19 else 21,bg='white',lwd=1.4)
+ text(z$R0+lab[[m]]$dx,z$R1+lab[[m]]$dy,labels=sub('.*_NP_','',z$method),col=col,cex=.77)
+ ze<-s[s$method==paste0(m,'_economic'),];points(ze$R0,ze$R1,col=col,pch=if(se)17 else 24,bg='white',cex=1.1,lwd=1.4)
+ zb<-s[s$method==paste0(m,'_equal_error'),];points(zb$R0,zb$R1,col=col,pch=0,cex=2,lwd=1.2)
 }
-legend('topright',c('SE','Ridge logistic'),col=c('#167C80','#B14F32'),lwd=2,bty='n')
-legend('bottomleft',c('NP (label is missed-crisis bound)','Economic threshold','Equal-error threshold'),pch=c(19,17,15),bty='n',cex=.8)
+legend('topright',c('SE','Ridge logistic'),col=c('#167C80','#B14F32'),lty=c(1,2),pch=c(19,21),pt.bg='white',lwd=1.7,bty='n')
+legend('bottomleft',c('NP (label is missed-crisis bound)','Economic threshold','Equal-error threshold'),pch=c(19,17,0),pt.cex=c(1,1,1.4),bty='n',cex=.8)
 dev.off()
 pdf(file.path(fig,'policy_rolling_replay.pdf'),width=8.5,height=4.7,family='Helvetica',useDingbats=FALSE)
 par(mar=c(4.2,4.5,2.3,1.2),las=1,mgp=c(2.7,.6,0),cex=.88)
